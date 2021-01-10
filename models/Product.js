@@ -39,6 +39,7 @@ Product.init(
         isNumeric: true
       }
     },
+    // Joining the Categories table
     category_id: {
       type: DataTypes.INTEGER,
       references:{

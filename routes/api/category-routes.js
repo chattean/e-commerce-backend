@@ -5,8 +5,14 @@ const { Category, Product } = require('../../models');
 
 router.get('/', (req, res) => {
   // find all categories
-  // be sure to include its associated Products
-  Category.findAll()
+  // include its associated Products
+  Category.findAll({
+    include: [
+      {
+        model: Product
+      }
+    ]
+  })
     .then(dbCategoryData => res.json(dbCategoryData))
     .catch(err => {
       console.log(err);
@@ -15,12 +21,17 @@ router.get('/', (req, res) => {
 });
 
 // find one category by its `id` value
-// be sure to include its associated Products
+// include its associated Products
 router.get('/:id', (req, res) => {
   Category.findOne({
     where: {
       id: req.params.id
-    }
+    },
+    include: [
+      {
+        model: Product
+      }
+    ]
   })
     .then(dbCategoryData => {
       if (!dbCategoryData) {
@@ -50,22 +61,22 @@ router.post('/', (req, res) => {
 
 router.put('/:id', (req, res) => {
   // update a category by its `id` value
-      Category.update(req.body, {
-        where: {
-          id: req.params.id
-        }
-      })
-        .then(dbCategoryData => {
-          if (!dbCategoryData[0]) {
-            res.status(404).json({ message: 'No Category found with this id' });
-            return;
-          }
-          res.json(dbCategoryData);
-        })
-        .catch(err => {
-          console.log(err);
-          res.status(500).json(err);
-        });
+  Category.update(req.body, {
+    where: {
+      id: req.params.id
+    }
+  })
+    .then(dbCategoryData => {
+      if (!dbCategoryData[0]) {
+        res.status(404).json({ message: 'No Category found with this id' });
+        return;
+      }
+      res.json(dbCategoryData);
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json(err);
+    });
 });
 
 router.delete('/:id', (req, res) => {

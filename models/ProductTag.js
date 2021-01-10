@@ -2,12 +2,12 @@ const { Model, DataTypes } = require('sequelize');
 
 const sequelize = require('../config/connection');
 
-class ProductTag extends Model {}
+class ProductTag extends Model { }
 
 ProductTag.init(
   {
     // define columns
-    id:{
+    id: {
       // use the special Sequelize DataTypes object provide what type of data it is
       type: DataTypes.INTEGER,
       // this is the equivalent of SQL's `NOT NULL` option
@@ -16,17 +16,19 @@ ProductTag.init(
       primaryKey: true,
       // turn on auto increment
       autoIncrement: true
-      },
-    product_id:{
-      type:DataTypes.INTEGER,
-      references:{
+    },
+    // joining Product
+    product_id: {
+      type: DataTypes.INTEGER,
+      references: {
         model: 'product',
         key: 'id'
       }
     },
-    tag_id:{
-      type:DataTypes.INTEGER,
-      references:{
+    //Joining Tags
+    tag_id: {
+      type: DataTypes.INTEGER,
+      references: {
         model: 'tag',
         key: 'id'
       }
